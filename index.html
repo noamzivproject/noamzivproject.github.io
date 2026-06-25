@@ -738,32 +738,37 @@ function applyData(data) {
   });
   updateDashboard();
 }
+let cachedSha = null;
 async function saveData() {
   showIndicator('שומר...');
   try {
-    let sha;
-    const cur = await fetch(GH_API + '?ref=' + GH_BRANCH, { headers: ghHeaders() });
-    if (cur.ok) {
-      sha = (await cur.json()).sha;
-    } else if (cur.status === 401) {
-      showIndicator('שגיאה ✗');
-      alert('Token פג תוקף — יש לעדכן את הקוד עם token חדש.');
-      return;
+    if (!cachedSha) {
+      const cur = await fetch(GH_API + '?ref=' + GH_BRANCH + '&t=' + Date.now(), { headers: ghHeaders() });
+      if (cur.ok) {
+        cachedSha = (await cur.json()).sha;
+      } else if (cur.status === 401) {
+        showIndicator('שגיאה ✗');
+        alert('Token פג תוקף — יש לעדכן את הקוד עם token חדש.');
+        return;
+      }
     }
     const body = {
       message: 'עדכון נתוני אירוע ' + new Date().toLocaleString('he-IL'),
       content: toBase64(JSON.stringify(gatherData(), null, 2)),
       branch: GH_BRANCH
     };
-    if (sha) body.sha = sha;
+    if (cachedSha) body.sha = cachedSha;
     const res = await fetch(GH_API, {
       method: 'PUT',
       headers: { ...ghHeaders(), 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
     if (res.ok) {
+      const json = await res.json();
+      cachedSha = json.content.sha;
       showIndicator('נשמר ✓');
     } else if (res.status === 409) {
+      cachedSha = null;
       showIndicator('קונפליקט ✗');
       alert('מישהו אחר שמר בינתיים.\nלחץ 🔄 רענן, אחר כך שמור שוב.');
     } else if (res.status === 401) {
@@ -785,6 +790,7 @@ async function reloadData() {
     const res = await fetch(GH_API + '?ref=' + GH_BRANCH + '&t=' + Date.now(), { headers: ghHeaders() });
     if (res.ok) {
       const file = await res.json();
+      cachedSha = file.sha;
       applyData(JSON.parse(fromBase64(file.content)));
       showIndicator('נטען ✓');
     } else if (res.status === 404) {
@@ -810,6 +816,7 @@ function showIndicator(msg) {
     const res = await fetch(GH_API + '?ref=' + GH_BRANCH + '&t=' + Date.now(), { headers: ghHeaders() });
     if (res.ok) {
       const file = await res.json();
+      cachedSha = file.sha;
       applyData(JSON.parse(fromBase64(file.content)));
     }
   } catch (e) {}
