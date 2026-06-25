@@ -672,16 +672,9 @@ const GH_REPO   = 'noamzivproject/project.github.io';
 const GH_FILE   = 'data.json';
 const GH_BRANCH = 'main';
 const GH_API    = 'https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE;
-function getToken() {
-  let t = localStorage.getItem('gh-token');
-  if (!t) {
-    t = prompt('הזן את ה-GitHub Token שלך\n(ישמר רק בדפדפן שלך, לא בשום קובץ):');
-    if (t) localStorage.setItem('gh-token', t.trim());
-  }
-  return t ? t.trim() : null;
-}
-function ghHeaders(token) {
-  return { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' };
+const GH_TOKEN  = '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';
+function ghHeaders() {
+  return { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' };
 }
 function toBase64(str) {
   return btoa(unescape(encodeURIComponent(str)));
@@ -746,18 +739,15 @@ function applyData(data) {
   updateDashboard();
 }
 async function saveData() {
-  const token = getToken();
-  if (!token) return;
   showIndicator('שומר...');
   try {
     let sha;
-    const cur = await fetch(GH_API + '?ref=' + GH_BRANCH, { headers: ghHeaders(token) });
+    const cur = await fetch(GH_API + '?ref=' + GH_BRANCH, { headers: ghHeaders() });
     if (cur.ok) {
       sha = (await cur.json()).sha;
     } else if (cur.status === 401) {
-      localStorage.removeItem('gh-token');
       showIndicator('שגיאה ✗');
-      alert('Token שגוי או פג תוקף. לחץ שמור שוב ותזין Token חדש.');
+      alert('Token פג תוקף — יש לעדכן את הקוד עם token חדש.');
       return;
     }
     const body = {
@@ -768,7 +758,7 @@ async function saveData() {
     if (sha) body.sha = sha;
     const res = await fetch(GH_API, {
       method: 'PUT',
-      headers: { ...ghHeaders(token), 'Content-Type': 'application/json' },
+      headers: { ...ghHeaders(), 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
     if (res.ok) {
@@ -777,9 +767,8 @@ async function saveData() {
       showIndicator('קונפליקט ✗');
       alert('מישהו אחר שמר בינתיים.\nלחץ 🔄 רענן, אחר כך שמור שוב.');
     } else if (res.status === 401) {
-      localStorage.removeItem('gh-token');
       showIndicator('שגיאה ✗');
-      alert('Token שגוי. לחץ שמור שוב ותזין Token חדש.');
+      alert('Token פג תוקף — יש לעדכן את הקוד עם token חדש.');
     } else {
       const err = await res.json().catch(() => ({}));
       showIndicator('שגיאה ✗');
@@ -791,11 +780,9 @@ async function saveData() {
   }
 }
 async function reloadData() {
-  const token = getToken();
-  if (!token) return;
   showIndicator('טוען...');
   try {
-    const res = await fetch(GH_API + '?ref=' + GH_BRANCH + '&t=' + Date.now(), { headers: ghHeaders(token) });
+    const res = await fetch(GH_API + '?ref=' + GH_BRANCH + '&t=' + Date.now(), { headers: ghHeaders() });
     if (res.ok) {
       const file = await res.json();
       applyData(JSON.parse(fromBase64(file.content)));
@@ -803,9 +790,8 @@ async function reloadData() {
     } else if (res.status === 404) {
       showIndicator('אין נתונים');
     } else if (res.status === 401) {
-      localStorage.removeItem('gh-token');
       showIndicator('שגיאה ✗');
-      alert('Token שגוי. לחץ 🔄 שוב ותזין Token חדש.');
+      alert('Token פג תוקף — יש לעדכן את הקוד עם token חדש.');
     }
   } catch (e) {
     showIndicator('שגיאה ✗');
@@ -820,17 +806,13 @@ function showIndicator(msg) {
   el._t = setTimeout(() => { el.style.opacity = '0'; }, 2500);
 }
 (async function () {
-  const token = localStorage.getItem('gh-token');
-  if (!token) return;
   try {
-    const res = await fetch(GH_API + '?ref=' + GH_BRANCH + '&t=' + Date.now(), { headers: ghHeaders(token) });
+    const res = await fetch(GH_API + '?ref=' + GH_BRANCH + '&t=' + Date.now(), { headers: ghHeaders() });
     if (res.ok) {
       const file = await res.json();
       applyData(JSON.parse(fromBase64(file.content)));
-    } else if (res.status === 401) {
-      localStorage.removeItem('gh-token');
     }
-  } catch (e) {  }
+  } catch (e) {}
 })();
 </script>
 </body>
