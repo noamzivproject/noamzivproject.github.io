@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>מצמיחים טוב — ניהול אירוע</title>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, sans-serif; background: #F5F0E8; color: #3D3828; direction: rtl; }
@@ -131,8 +130,8 @@
     margin-bottom: 20px;
     text-align: center;
   }
-  button.save-btn { background: #6B7C45; color: white; }
-  button.save-btn:hover { background: #5a6b38; }
+  button.save-btn { background: #8B9E6A; color: white; }
+  button.save-btn:hover { background: #7a8d59; }
   button.load-btn { background: #8B9E6A; color: white; }
   button.load-btn:hover { background: #7a8d59; }
   #save-indicator { font-size: 13px; color: #C9A84C; opacity: 0; transition: opacity 0.5s; min-width: 80px; text-align: center; }
@@ -148,7 +147,6 @@
     <span id="save-indicator"></span>
     <button class="export-btn load-btn" onclick="reloadData()">🔄 רענן</button>
     <button class="export-btn save-btn" onclick="saveData()">💾 שמור</button>
-    <button class="export-btn" onclick="exportToExcel()">⬇️ ייצוא לאקסל</button>
   </div>
 </div>
 <div class="tabs">
@@ -636,38 +634,6 @@ document.addEventListener('change', function(e) {
   }
 });
 setTimeout(updateDashboard, 100);
-function exportToExcel() {
-  const wb = XLSX.utils.book_new();
-  const sheetNames = [
-    "דשבורד","ניהול פרויקט","תקציב","ספקים","עובדים",
-    "סדנאות","עיצוב וחוויה","עץ הצמיחה","סרטון וסיום",
-    "ציוד טכני","יום האירוע","צ'קליסט","ניהול סיכונים"
-  ];
-  document.querySelectorAll('.sheet').forEach((sheet, i) => {
-    const tables = sheet.querySelectorAll('table');
-    const allRows = [];
-    allRows.push([sheetNames[i]]);
-    allRows.push([]);
-    tables.forEach(tbl => {
-      const prev = tbl.closest('.tbl-wrap')?.previousElementSibling;
-      if (prev && prev.classList.contains('sec-title')) {
-        allRows.push([prev.textContent.trim()]);
-      }
-      tbl.querySelectorAll('tr').forEach(tr => {
-        const row = [];
-        tr.querySelectorAll('th,td').forEach(cell => {
-          const sel = cell.querySelector('select');
-          row.push(sel ? sel.value : cell.textContent.trim());
-        });
-        allRows.push(row);
-      });
-      allRows.push([]);
-    });
-    const ws = XLSX.utils.aoa_to_sheet(allRows);
-    XLSX.utils.book_append_sheet(wb, ws, sheetNames[i]);
-  });
-  XLSX.writeFile(wb, 'מצמיחים-טוב-ניהול-אירוע.xlsx');
-}
 const GH_REPO   = 'noamzivproject/project.github.io';
 const GH_FILE   = 'data.json';
 const GH_BRANCH = 'main';
