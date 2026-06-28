@@ -135,6 +135,49 @@
   button.load-btn { background: #8B9E6A; color: white; }
   button.load-btn:hover { background: #7a8d59; }
   #save-indicator { font-size: 13px; color: #C9A84C; opacity: 0; transition: opacity 0.5s; min-width: 80px; text-align: center; }
+  .add-row-btn {
+    background: #9AAF88;
+    color: white;
+    border: none;
+    padding: 7px 0;
+    border-radius: 0 0 8px 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    margin-bottom: 14px;
+    transition: background 0.2s;
+    display: block;
+    width: 100%;
+    letter-spacing: 0.5px;
+  }
+  .add-row-btn:hover { background: #6B7C45; }
+  td.auto-calc {
+    background: #EEF2E8 !important;
+    color: #6B7C45;
+    font-weight: 600;
+    cursor: default;
+  }
+  .del-btn {
+    background: #e57373;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 22px;
+    height: 22px;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    transition: background 0.15s;
+    padding: 0;
+  }
+  .del-btn:hover { background: #c62828; }
+  th.del-th { width: 32px; }
 </style>
 </head>
 <body>
@@ -220,34 +263,34 @@
 </div>
 <div class="sheet" id="sheet-2">
   <div class="sec-title">🍽️ אוכל</div>
-  <div class="tbl-wrap"><table><thead><tr><th>ספק</th><th>הצעת מחיר</th><th>מחיר לאדם</th><th>הערות</th></tr></thead><tbody>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+  <div class="tbl-wrap"><table id="budget-food-table"><thead><tr><th>ספק</th><th>הצעת מחיר</th><th>מחיר לאדם</th><th>בפועל (₪)</th><th>הפרש</th><th>הערות</th></tr></thead><tbody>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
   </tbody></table></div>
   <div class="sec-title">🧘 סדנאות</div>
-  <div class="tbl-wrap"><table><thead><tr><th>ספק</th><th>עלות</th><th>הערות</th></tr></thead><tbody>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+  <div class="tbl-wrap"><table id="budget-ws-table"><thead><tr><th>ספק</th><th>עלות</th><th>בפועל (₪)</th><th>הפרש</th><th>הערות</th></tr></thead><tbody>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
   </tbody></table></div>
   <div class="sec-title">🌿 עיצוב</div>
-  <div class="tbl-wrap"><table><thead><tr><th>פריט</th><th>עלות</th><th>הערות</th></tr></thead><tbody>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+  <div class="tbl-wrap"><table id="budget-design-table"><thead><tr><th>פריט</th><th>עלות</th><th>בפועל (₪)</th><th>הפרש</th><th>הערות</th></tr></thead><tbody>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
   </tbody></table></div>
   <div class="sec-title">📊 סיכום תקציב</div>
-  <div class="tbl-wrap"><table><thead><tr><th>קטגוריה</th><th>מתוכנן (₪)</th><th>בפועל (₪)</th><th>הפרש</th></tr></thead><tbody>
-    <tr><td>אוכל</td><td contenteditable="true"></td><td contenteditable="true"></td><td></td></tr>
-    <tr><td>סדנאות</td><td contenteditable="true"></td><td contenteditable="true"></td><td></td></tr>
-    <tr><td>עיצוב</td><td contenteditable="true"></td><td contenteditable="true"></td><td></td></tr>
-    <tr><td>טכני</td><td contenteditable="true"></td><td contenteditable="true"></td><td></td></tr>
-    <tr><td>מתנות</td><td contenteditable="true"></td><td contenteditable="true"></td><td></td></tr>
-    <tr><td>שונות</td><td contenteditable="true"></td><td contenteditable="true"></td><td></td></tr>
+  <div class="tbl-wrap"><table id="budget-summary-table"><thead><tr><th>קטגוריה</th><th>מתוכנן (₪)</th><th>בפועל (₪)</th><th>הפרש</th></tr></thead><tbody>
+    <tr><td>אוכל</td><td class="auto-calc" id="sum-food-plan"></td><td class="auto-calc" id="sum-food-actual"></td><td class="auto-calc" id="sum-food-diff"></td></tr>
+    <tr><td>סדנאות</td><td class="auto-calc" id="sum-ws-plan"></td><td class="auto-calc" id="sum-ws-actual"></td><td class="auto-calc" id="sum-ws-diff"></td></tr>
+    <tr><td>עיצוב</td><td class="auto-calc" id="sum-design-plan"></td><td class="auto-calc" id="sum-design-actual"></td><td class="auto-calc" id="sum-design-diff"></td></tr>
+    <tr><td>טכני</td><td contenteditable="true" id="sum-tech-plan"></td><td contenteditable="true" id="sum-tech-actual"></td><td class="auto-calc" id="sum-tech-diff"></td></tr>
+    <tr><td>מתנות</td><td contenteditable="true" id="sum-gifts-plan"></td><td contenteditable="true" id="sum-gifts-actual"></td><td class="auto-calc" id="sum-gifts-diff"></td></tr>
+    <tr><td>שונות</td><td contenteditable="true" id="sum-misc-plan"></td><td contenteditable="true" id="sum-misc-actual"></td><td class="auto-calc" id="sum-misc-diff"></td></tr>
     <tr style="background:#C9A84C;font-weight:800;"><td>סה"כ</td><td id="budget-plan">₪0</td><td id="budget-actual">₪0</td><td id="budget-diff">₪0</td></tr>
   </tbody></table></div>
 </div>
@@ -456,59 +499,74 @@ function colorPriority(sel) {
   if (map[sel.value]) td.classList.add(map[sel.value]);
 }
 const tasks = [
+  // ניהול והפקה
   ["ניהול והפקה","כללי","שליחת פרטי אירוע לעובדים","הזמנה עם תאריך שעה ומיקום","גבוהה"],
   ["ניהול והפקה","כללי","בניית טופס רישום לסדנאות","בחירת סדנה בסשן 1 + סשן 2, אלרגיות","גבוהה"],
   ["ניהול והפקה","כללי","ריכוז רישומי עובדים","שיבוץ לסדנאות לפי בחירה","גבוהה"],
   ["ניהול והפקה","כללי","תדריך צוות יום לפני","תפקידים, לוז, אחריות כל אחת","גבוהה"],
-  ["אוכל","קייטרינג","לאתר 2 ספקי בשר","תקציב 80-130 ₪ לאדם","גבוהה"],
-  ["אוכל","קייטרינג","לאתר 2 ספקי חלבי","תקציב 80-130 ₪ לאדם","גבוהה"],
-  ["אוכל","קייטרינג","לבחור ספק קייטרינג סופי","השוואת הצעות ואישור","גבוהה"],
-  ["אוכל","כיבוד סדנאות","לתכנן כיבוד בין סשנים","מה יוגש בהפסקה 10:45-11:15","בינונית"],
-  ["אוכל","כיבוד סיום","להזמין עוגות גבינה","לטקס הסיום","בינונית"],
-  ["סדנאות","ספקים","לקבל תשובה לגבי ספקי סדנאות","תשובה צפויה יום ב'/ג'","גבוהה"],
-  ["סדנאות","ספקים","שיחה עם ספקי סדנאות","לאחר קבלת תשובה","גבוהה"],
-  ["סדנאות","ספקים","לאשר 6 סדנאות לסשן 1","6 סדנאות במקביל, 15-20 משתתפים","גבוהה"],
-  ["סדנאות","ספקים","לאשר 6 סדנאות לסשן 2","6 סדנאות במקביל, 15-20 משתתפים","גבוהה"],
-  ["סדנאות","ספקים","לשלוח אישור סופי לספקי הסדנאות","כולל שעות, מיקום, ציוד נדרש","גבוהה"],
-  ["עיצוב","רכש","לאסוף רעיונות לפינות עיצוב מ-Shine","רשימה עם קישורים ומחירים","בינונית"],
-  ["עיצוב","רכש","להזמין מפות שולחן נייר חום","","בינונית"],
-  ["עיצוב","רכש","להזמין סרט תחרה לבן","","בינונית"],
-  ["עיצוב","רכש","להכין טבלת פריטי עיצוב","פריט / מחיר / כמות / סה\"כ / קישור Shine","בינונית"],
-  ["עיצוב","שילוט","להכין שלטי כניסה ועמדות","שלט קבלת פנים, שלטי סדנאות","בינונית"],
-  ["עץ הצמיחה","תוכן","לנסח שאלה אחת לטופס","שאלה שתודפס על העלים","גבוהה"],
-  ["עץ הצמיחה","תוכן","לאסוף תשובות מהטופס","לפני האירוע","גבוהה"],
-  ["עץ הצמיחה","תוכן","לסנן ולהדפיס תשובות על עלים","","גבוהה"],
-  ["עץ הצמיחה","ציוד","להכין עמדת עץ הצמיחה","שולחן/מעמד, עלים, טושים, חבלים","בינונית"],
-  ["עץ הצמיחה","תיעוד","לצלם תמונות יומיות של עובדים","עובדים מדברים על צמיחה — טיזר","בינונית"],
-  ["וידאו","סרטון","לאסוף תמונות וסרטונים","מהעובדים ומהארגון","בינונית"],
-  ["וידאו","סרטון","עריכת סרטון","","בינונית"],
-  ["וידאו","סרטון","אישור הנהלה לסרטון","","גבוהה"],
-  ["וידאו","קהוט","להכין משחק קהוט","שאלות על הארגון והעובדים","בינונית"],
-  ["טכני","ציוד","לוודא מקרן ומסך","","גבוהה"],
-  ["טכני","ציוד","לוודא מיקרופון ורמקולים","","גבוהה"],
-  ["טכני","ציוד","בדיקת סרטון + מצגת + סאונד","יום לפני האירוע","גבוהה"],
-  ["סיום","נאום","להכין תוכן לנאום","מי נואם, כמה זמן","גבוהה"],
-  ["סיום","נאום","לאשר דוברים","","גבוהה"],
-  ["מתנות","שי","להחליט על מתנה לעובדים","","בינונית"],
-  ["מתנות","שי","להזמין מתנות","180 יחידות","בינונית"],
-  ["מתנות","שי","לארוז ולהכין מתנות לחלוקה","","נמוכה"],
+  // כיבוד לקבלת פנים
   ["כיבוד לקבלת פנים","מכונות ודוכנים","לקחת 2 הצעות מחיר למכונת פופקורן","לא לשכוח להזמין קרטונים בעיצוב מתאים משיין","בינונית"],
   ["כיבוד לקבלת פנים","מכונות ודוכנים","לקחת 2 הצעות מחיר למכונת וופל בלגי / קרפ","","בינונית"],
   ["כיבוד לקבלת פנים","מכונות ודוכנים","לקחת הצעת מחיר לדוכן גלידה דלי-קרים","","בינונית"],
   ["כיבוד לקבלת פנים","שופרסל","להכין רשימת כיבוד משופרסל עם כמויות ועלויות","פירות, מאפים, פירות יבשים לשולחן שוק (מתקשר לקונספט), שתיה קלה, שתיה חריפה כמו יין","בינונית"],
   ["כיבוד לקבלת פנים","משקאות","לקחת הצעת מחיר לספק קוקייטלים / שייקים","","בינונית"],
-  ["עץ הצמיחה","תוכן","קבלת תשובות מעמותת שקל — מה גורם לי להמשיך לעשות טוב","להכין את העלים בהתאם","גבוהה"],
-  ["עץ הצמיחה","תוכן","הדפסת תמונות של עובדים ותליה על עץ הצמיחה","","בינונית"],
-  ["ציוד","ריהוט","לוודא שיש מספיק ציוד לישיבה לארוחת צהריים","אם לא — לקחת הצעת מחיר להשכרת ציוד","גבוהה"],
+  // אוכל
+  ["אוכל","קייטרינג","לאתר 2 ספקי בשר","תקציב 80-130 ₪ לאדם","גבוהה"],
+  ["אוכל","קייטרינג","לאתר 2 ספקי חלבי","תקציב 80-130 ₪ לאדם","גבוהה"],
+  ["אוכל","קייטרינג","לבחור ספק קייטרינג סופי","השוואת הצעות ואישור","גבוהה"],
+  ["אוכל","כיבוד סדנאות","לתכנן כיבוד בין סשנים","מה יוגש בהפסקה 10:45-11:15","בינונית"],
+  ["אוכל","כיבוד סיום","להזמין עוגות גבינה","לטקס הסיום","בינונית"],
+  ["אוכל","ציוד הגשה","לחפש כלים וסכו\"ם מעץ במבוק במקס סטוק","שפה של טבע לארוחת הצהריים","נמוכה"],
+  // סדנאות
+  ["סדנאות","ספקים","לקבל תשובה לגבי ספקי סדנאות","תשובה צפויה יום ב'/ג'","גבוהה"],
+  ["סדנאות","ספקים","שיחה עם ספקי סדנאות","לאחר קבלת תשובה","גבוהה"],
+  ["סדנאות","ספקים","לאשר 6 סדנאות לסשן 1","6 סדנאות במקביל, 15-20 משתתפים","גבוהה"],
+  ["סדנאות","ספקים","לאשר 6 סדנאות לסשן 2","6 סדנאות במקביל, 15-20 משתתפים","גבוהה"],
+  ["סדנאות","ספקים","לשלוח אישור סופי לספקי הסדנאות","כולל שעות, מיקום, ציוד נדרש","גבוהה"],
+  // עיצוב
+  ["עיצוב","רכש","לאסוף רעיונות לפינות עיצוב מ-Shine","רשימה עם קישורים ומחירים","בינונית"],
+  ["עיצוב","רכש","להזמין מפות שולחן נייר חום","","בינונית"],
+  ["עיצוב","רכש","להזמין סרט תחרה לבן","","בינונית"],
+  ["עיצוב","רכש","להכין טבלת פריטי עיצוב","פריט / מחיר / כמות / סה\"כ / קישור Shine","בינונית"],
+  ["עיצוב","שילוט","להכין שלטי כניסה ועמדות","שלט קבלת פנים, שלטי סדנאות","בינונית"],
   ["עיצוב","קבלת פנים","לקחת הצעת מחיר על קיר צילום לקבלת פנים","עיצוב קונספט / פוסטר עם סלוגן מעמותת שקל + שלט/קאנבס עם פרחים מלאכותיים משיין","בינונית"],
   ["עיצוב","קבלת פנים","לחפש שטיח ירוק דשא סינטטי לקבלת פנים","מסדרון כניסה","בינונית"],
-  ["אוכל","ציוד הגשה","לחפש כלים וסכו\"ם מעץ במבוק במקס סטוק","שפה של טבע לארוחת הצהריים","נמוכה"],
-  ["מוסיקה","קבלת פנים","להכין פלייליסט לקבלת פנים בספוטיפיי","","בינונית"],
-  ["מתנדבים","הקמות","לוודא מול ליטל שיש מספיק מתנדבים להקמות ערב קודם","","גבוהה"],
-  ["מתנדבים","יום האירוע","לוודא מול ליטל שיש מתנדבים לדוכנים ולסדנאות","דוכני קבלת פנים, סדנאות, עמדת כרטיסיות, כיוון עובדים לסדנאות","גבוהה"],
-  ["ניקיון","כללי","לוודא מול ליטל האם יש חברת ניקיון","אם לא — לדאוג למתנדבים גם לניקיון","גבוהה"],
+  // שילוט
   ["שילוט","ניווט","להכין שילוט לאיזה כיתה מתקיימת כל סדנא","לתלות במתחם לכל העובדים","גבוהה"],
   ["שילוט","כרטיסיות","לקבל מליטל רשימות עובדים שענו על השאלון","להכין כרטיסיות מעוצבות עם שם עובד + כיתה + סדנא שבחר","גבוהה"],
+  // עץ הצמיחה
+  ["עץ הצמיחה","תוכן","לנסח שאלה אחת לטופס","שאלה שתודפס על העלים","גבוהה"],
+  ["עץ הצמיחה","תוכן","לאסוף תשובות מהטופס","לפני האירוע","גבוהה"],
+  ["עץ הצמיחה","תוכן","לסנן ולהדפיס תשובות על עלים","","גבוהה"],
+  ["עץ הצמיחה","תוכן","קבלת תשובות מעמותת שקל — מה גורם לי להמשיך לעשות טוב","להכין את העלים בהתאם","גבוהה"],
+  ["עץ הצמיחה","תוכן","הדפסת תמונות של עובדים ותליה על עץ הצמיחה","","בינונית"],
+  ["עץ הצמיחה","ציוד","להכין עמדת עץ הצמיחה","שולחן/מעמד, עלים, טושים, חבלים","בינונית"],
+  ["עץ הצמיחה","תיעוד","לצלם תמונות יומיות של עובדים","עובדים מדברים על צמיחה — טיזר","בינונית"],
+  // מוסיקה
+  ["מוסיקה","קבלת פנים","להכין פלייליסט לקבלת פנים בספוטיפיי","","בינונית"],
+  // מתנדבים
+  ["מתנדבים","הקמות","לוודא מול ליטל שיש מספיק מתנדבים להקמות ערב קודם","","גבוהה"],
+  ["מתנדבים","יום האירוע","לוודא מול ליטל שיש מתנדבים לדוכנים ולסדנאות","דוכני קבלת פנים, סדנאות, עמדת כרטיסיות, כיוון עובדים לסדנאות","גבוהה"],
+  // ציוד
+  ["ציוד","ריהוט","לוודא שיש מספיק ציוד לישיבה לארוחת צהריים","אם לא — לקחת הצעת מחיר להשכרת ציוד","גבוהה"],
+  // ניקיון
+  ["ניקיון","כללי","לוודא מול ליטל האם יש חברת ניקיון","אם לא — לדאוג למתנדבים גם לניקיון","גבוהה"],
+  // וידאו
+  ["וידאו","סרטון","לאסוף תמונות וסרטונים","מהעובדים ומהארגון","בינונית"],
+  ["וידאו","סרטון","עריכת סרטון","","בינונית"],
+  ["וידאו","סרטון","אישור הנהלה לסרטון","","גבוהה"],
+  ["וידאו","קהוט","להכין משחק קהוט","שאלות על הארגון והעובדים","בינונית"],
+  // טכני
+  ["טכני","ציוד","לוודא מקרן ומסך","","גבוהה"],
+  ["טכני","ציוד","לוודא מיקרופון ורמקולים","","גבוהה"],
+  ["טכני","ציוד","בדיקת סרטון + מצגת + סאונד","יום לפני האירוע","גבוהה"],
+  // סיום
+  ["סיום","נאום","להכין תוכן לנאום","מי נואם, כמה זמן","גבוהה"],
+  ["סיום","נאום","לאשר דוברים","","גבוהה"],
+  // מתנות
+  ["מתנות","שי","להחליט על מתנה לעובדים","","בינונית"],
+  ["מתנות","שי","להזמין מתנות","180 יחידות","בינונית"],
+  ["מתנות","שי","לארוז ולהכין מתנות לחלוקה","","נמוכה"],
 ];
 const tbody = document.getElementById('tasks-body');
 tasks.forEach((t,i) => {
@@ -651,6 +709,131 @@ document.addEventListener('change', function(e) {
   }
 });
 setTimeout(updateDashboard, 100);
+const SKIP_IDS = new Set(['kpi-pct','kpi-done','kpi-wip','kpi-sup','kpi-ws','days-left','budget-plan','budget-actual','budget-diff','progress-label']);
+function addDeleteBtn(tr) {
+  const td = document.createElement('td');
+  td.style.cssText = 'width:32px;padding:4px;text-align:center;vertical-align:middle;border:1px solid #ddd4c4;';
+  const btn = document.createElement('button');
+  btn.className = 'del-btn';
+  btn.innerHTML = '&times;';
+  btn.setAttribute('onclick', "this.closest('tr').remove()");
+  td.appendChild(btn);
+  tr.appendChild(td);
+}
+function setupEditableAndButtons() {
+  document.querySelectorAll('td').forEach(cell => {
+    if (cell.querySelector('select')) return;
+    if (cell.id && SKIP_IDS.has(cell.id)) return;
+    if (cell.classList.contains('auto-calc')) return;
+    cell.contentEditable = 'true';
+  });
+  document.querySelectorAll('table').forEach(table => {
+    const thead = table.querySelector('thead tr');
+    if (thead && !thead.querySelector('.del-th')) {
+      const th = document.createElement('th');
+      th.className = 'del-th';
+      thead.appendChild(th);
+    }
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      if (!tr.querySelector('.del-btn')) addDeleteBtn(tr);
+    });
+  });
+  document.querySelectorAll('.tbl-wrap').forEach(wrap => {
+    if (wrap.nextElementSibling && wrap.nextElementSibling.classList.contains('add-row-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'add-row-btn';
+    btn.textContent = '+ הוסף שורה';
+    btn.onclick = function() { addRow(wrap); };
+    wrap.parentNode.insertBefore(btn, wrap.nextSibling);
+  });
+}
+function addRow(wrap) {
+  const table = wrap.querySelector('table');
+  const tbody = table.querySelector('tbody');
+  const rows = tbody.querySelectorAll('tr');
+  let newRow;
+  if (rows.length > 0) {
+    newRow = rows[rows.length - 1].cloneNode(true);
+    newRow.querySelectorAll('td').forEach(td => {
+      if (td.querySelector('.del-btn')) return;
+      if (!td.querySelector('select')) td.textContent = '';
+      td.style.background = '';
+    });
+    newRow.querySelectorAll('select').forEach(sel => {
+      sel.selectedIndex = 0;
+      sel.parentElement.className = '';
+      const oc = sel.getAttribute('onchange') || '';
+      if (oc.includes('colorStatus')) colorStatus(sel);
+      else if (oc.includes('colorPriority')) colorPriority(sel);
+    });
+  } else {
+    const cols = table.querySelectorAll('thead th').length || 1;
+    newRow = document.createElement('tr');
+    for (let i = 0; i < cols; i++) {
+      const td = document.createElement('td');
+      td.contentEditable = 'true';
+      newRow.appendChild(td);
+    }
+    addDeleteBtn(newRow);
+  }
+  tbody.appendChild(newRow);
+}
+function parseNum(str) {
+  return parseFloat((str || '').replace(/[₪,\s]/g, '')) || 0;
+}
+function fmtNum(n) {
+  return n !== 0 ? '₪' + n.toLocaleString('he-IL') : '';
+}
+function calcBudgetTable(tableId, planCol, actualCol, diffCol) {
+  const table = document.getElementById(tableId);
+  if (!table) return { plan: 0, actual: 0 };
+  let plan = 0, actual = 0;
+  table.querySelectorAll('tbody tr').forEach(tr => {
+    const cells = tr.querySelectorAll('td');
+    const p = parseNum(cells[planCol] && cells[planCol].textContent);
+    const a = parseNum(cells[actualCol] && cells[actualCol].textContent);
+    plan += p; actual += a;
+    if (cells[diffCol]) cells[diffCol].textContent = fmtNum(p - a);
+  });
+  return { plan, actual };
+}
+function updateBudgetSummary() {
+  const food   = calcBudgetTable('budget-food-table',   1, 3, 4);
+  const ws     = calcBudgetTable('budget-ws-table',     1, 2, 3);
+  const design = calcBudgetTable('budget-design-table', 1, 2, 3);
+  const autoRows = [
+    { plan: 'sum-food-plan',   actual: 'sum-food-actual',   diff: 'sum-food-diff',   data: food },
+    { plan: 'sum-ws-plan',     actual: 'sum-ws-actual',     diff: 'sum-ws-diff',     data: ws },
+    { plan: 'sum-design-plan', actual: 'sum-design-actual', diff: 'sum-design-diff', data: design },
+  ];
+  autoRows.forEach(({ plan, actual, diff, data }) => {
+    document.getElementById(plan).textContent   = fmtNum(data.plan);
+    document.getElementById(actual).textContent = fmtNum(data.actual);
+    document.getElementById(diff).textContent   = fmtNum(data.plan - data.actual);
+  });
+  const manualRows = [
+    { plan: 'sum-tech-plan',  actual: 'sum-tech-actual',  diff: 'sum-tech-diff' },
+    { plan: 'sum-gifts-plan', actual: 'sum-gifts-actual', diff: 'sum-gifts-diff' },
+    { plan: 'sum-misc-plan',  actual: 'sum-misc-actual',  diff: 'sum-misc-diff' },
+  ];
+  manualRows.forEach(({ plan, actual, diff }) => {
+    const p = parseNum(document.getElementById(plan) && document.getElementById(plan).textContent);
+    const a = parseNum(document.getElementById(actual) && document.getElementById(actual).textContent);
+    const el = document.getElementById(diff);
+    if (el) el.textContent = fmtNum(p - a);
+  });
+  let grandPlan = food.plan + ws.plan + design.plan;
+  let grandActual = food.actual + ws.actual + design.actual;
+  manualRows.forEach(({ plan, actual }) => {
+    grandPlan   += parseNum(document.getElementById(plan) && document.getElementById(plan).textContent);
+    grandActual += parseNum(document.getElementById(actual) && document.getElementById(actual).textContent);
+  });
+  document.getElementById('budget-plan').textContent   = fmtNum(grandPlan);
+  document.getElementById('budget-actual').textContent = fmtNum(grandActual);
+  document.getElementById('budget-diff').textContent   = fmtNum(grandPlan - grandActual);
+}
+document.getElementById('sheet-2').addEventListener('input', updateBudgetSummary);
+setupEditableAndButtons();
 const GH_REPO   = 'noamzivproject/project.github.io';
 const GH_FILE   = 'data.json';
 const GH_BRANCH = 'main';
