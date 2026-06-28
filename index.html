@@ -281,25 +281,25 @@
 </div>
 <div class="sheet" id="sheet-2">
   <div class="sec-title">🍽️ אוכל</div>
-  <div class="tbl-wrap"><table id="budget-food-table"><thead><tr><th>ספק</th><th>הצעת מחיר</th><th>מחיר לאדם</th><th>בפועל (₪)</th><th>הפרש</th><th>הערות</th></tr></thead><tbody>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+  <div class="tbl-wrap"><table id="budget-food-table"><thead><tr><th>ספק</th><th>הצעת מחיר</th><th>בפועל (₪)</th><th>הערות</th></tr></thead><tbody>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
   </tbody></table></div>
   <div class="sec-title">🧘 סדנאות</div>
-  <div class="tbl-wrap"><table id="budget-ws-table"><thead><tr><th>ספק</th><th>עלות</th><th>בפועל (₪)</th><th>הפרש</th><th>הערות</th></tr></thead><tbody>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+  <div class="tbl-wrap"><table id="budget-ws-table"><thead><tr><th>ספק</th><th>עלות</th><th>בפועל (₪)</th><th>הערות</th></tr></thead><tbody>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
   </tbody></table></div>
   <div class="sec-title">🌿 עיצוב</div>
-  <div class="tbl-wrap"><table id="budget-design-table"><thead><tr><th>פריט</th><th>עלות</th><th>בפועל (₪)</th><th>הפרש</th><th>הערות</th></tr></thead><tbody>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
-    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td class="auto-calc"></td><td contenteditable="true"></td></tr>
+  <div class="tbl-wrap"><table id="budget-design-table"><thead><tr><th>פריט</th><th>עלות</th><th>בפועל (₪)</th><th>הערות</th></tr></thead><tbody>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
   </tbody></table></div>
   <div class="sec-title">📊 סיכום תקציב</div>
   <div class="tbl-wrap"><table id="budget-summary-table"><thead><tr><th>קטגוריה</th><th>מתוכנן (₪)</th><th>בפועל (₪)</th><th>הפרש</th></tr></thead><tbody>
@@ -820,23 +820,21 @@ function parseNum(str) {
 function fmtNum(n) {
   return n !== 0 ? '₪' + n.toLocaleString('he-IL') : '';
 }
-function calcBudgetTable(tableId, planCol, actualCol, diffCol) {
+function calcBudgetTable(tableId, planCol, actualCol) {
   const table = document.getElementById(tableId);
   if (!table) return { plan: 0, actual: 0 };
   let plan = 0, actual = 0;
   table.querySelectorAll('tbody tr').forEach(tr => {
     const cells = tr.querySelectorAll('td');
-    const p = parseNum(cells[planCol] && cells[planCol].textContent);
-    const a = parseNum(cells[actualCol] && cells[actualCol].textContent);
-    plan += p; actual += a;
-    if (cells[diffCol]) cells[diffCol].textContent = fmtNum(p - a);
+    plan   += parseNum(cells[planCol]   && cells[planCol].textContent);
+    actual += parseNum(cells[actualCol] && cells[actualCol].textContent);
   });
   return { plan, actual };
 }
 function updateBudgetSummary() {
-  const food   = calcBudgetTable('budget-food-table',   1, 3, 4);
-  const ws     = calcBudgetTable('budget-ws-table',     1, 2, 3);
-  const design = calcBudgetTable('budget-design-table', 1, 2, 3);
+  const food   = calcBudgetTable('budget-food-table',   1, 2);
+  const ws     = calcBudgetTable('budget-ws-table',     1, 2);
+  const design = calcBudgetTable('budget-design-table', 1, 2);
   const autoRows = [
     { plan: 'sum-food-plan',   actual: 'sum-food-actual',   diff: 'sum-food-diff',   data: food },
     { plan: 'sum-ws-plan',     actual: 'sum-ws-actual',     diff: 'sum-ws-diff',     data: ws },
