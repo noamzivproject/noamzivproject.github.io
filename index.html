@@ -135,23 +135,40 @@
   button.load-btn { background: #8B9E6A; color: white; }
   button.load-btn:hover { background: #7a8d59; }
   #save-indicator { font-size: 13px; color: #C9A84C; opacity: 0; transition: opacity 0.5s; min-width: 80px; text-align: center; }
-  .add-row-btn {
-    background: #9AAF88;
-    color: white;
+  .table-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .edit-mode-btn {
+    background: #C4A882;
+    color: #3D3828;
     border: none;
-    padding: 7px 0;
-    border-radius: 0 0 8px 8px;
+    padding: 7px 18px;
+    border-radius: 8px;
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     font-family: Arial, sans-serif;
-    margin-bottom: 14px;
     transition: background 0.2s;
-    display: block;
-    width: 100%;
-    letter-spacing: 0.5px;
+  }
+  .edit-mode-btn:hover { background: #b08050; color: white; }
+  .table-block.editing .edit-mode-btn { background: #6B7C45; color: white; }
+  .add-row-btn {
+    background: #9AAF88;
+    color: white;
+    border: none;
+    padding: 7px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    transition: background 0.2s;
+    display: none;
   }
   .add-row-btn:hover { background: #6B7C45; }
+  .table-block.editing .add-row-btn { display: block; }
   td.auto-calc {
     background: #EEF2E8 !important;
     color: #6B7C45;
@@ -177,7 +194,8 @@
     padding: 0;
   }
   .del-btn:hover { background: #c62828; }
-  th.del-th { width: 32px; }
+  .del-col { display: none; }
+  .table-block.editing .del-col { display: table-cell; }
 </style>
 </head>
 <body>
@@ -712,6 +730,7 @@ setTimeout(updateDashboard, 100);
 const SKIP_IDS = new Set(['kpi-pct','kpi-done','kpi-wip','kpi-sup','kpi-ws','days-left','budget-plan','budget-actual','budget-diff','progress-label']);
 function addDeleteBtn(tr) {
   const td = document.createElement('td');
+  td.className = 'del-col';
   td.style.cssText = 'width:32px;padding:4px;text-align:center;vertical-align:middle;border:1px solid #ddd4c4;';
   const btn = document.createElement('button');
   btn.className = 'del-btn';
@@ -725,13 +744,15 @@ function setupEditableAndButtons() {
     if (cell.querySelector('select')) return;
     if (cell.id && SKIP_IDS.has(cell.id)) return;
     if (cell.classList.contains('auto-calc')) return;
+    if (cell.classList.contains('del-col')) return;
     cell.contentEditable = 'true';
   });
   document.querySelectorAll('table').forEach(table => {
     const thead = table.querySelector('thead tr');
-    if (thead && !thead.querySelector('.del-th')) {
+    if (thead && !thead.querySelector('.del-col')) {
       const th = document.createElement('th');
-      th.className = 'del-th';
+      th.className = 'del-col';
+      th.style.width = '32px';
       thead.appendChild(th);
     }
     table.querySelectorAll('tbody tr').forEach(tr => {
@@ -739,12 +760,27 @@ function setupEditableAndButtons() {
     });
   });
   document.querySelectorAll('.tbl-wrap').forEach(wrap => {
-    if (wrap.nextElementSibling && wrap.nextElementSibling.classList.contains('add-row-btn')) return;
-    const btn = document.createElement('button');
-    btn.className = 'add-row-btn';
-    btn.textContent = '+ הוסף שורה';
-    btn.onclick = function() { addRow(wrap); };
-    wrap.parentNode.insertBefore(btn, wrap.nextSibling);
+    if (wrap.parentElement.classList.contains('table-block')) return;
+    const block = document.createElement('div');
+    block.className = 'table-block';
+    wrap.parentNode.insertBefore(block, wrap);
+    block.appendChild(wrap);
+    const controls = document.createElement('div');
+    controls.className = 'table-controls';
+    const editBtn = document.createElement('button');
+    editBtn.className = 'edit-mode-btn';
+    editBtn.textContent = '✏️ עריכה';
+    editBtn.onclick = function() {
+      const on = block.classList.toggle('editing');
+      editBtn.textContent = on ? '✓ סיום עריכה' : '✏️ עריכה';
+    };
+    const addBtn = document.createElement('button');
+    addBtn.className = 'add-row-btn';
+    addBtn.textContent = '+ הוסף שורה';
+    addBtn.onclick = function() { addRow(wrap); };
+    controls.appendChild(editBtn);
+    controls.appendChild(addBtn);
+    block.appendChild(controls);
   });
 }
 function addRow(wrap) {
